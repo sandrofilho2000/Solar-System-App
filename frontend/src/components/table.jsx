@@ -1,91 +1,51 @@
+import { useEffect, useState } from "react"
+import { api } from "../utils/api"
+
 const Table = () => {
-  return (
-    <div className="flex flex-col">
-  <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-    <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-      <div className="overflow-hidden">
-        <table className="min-w-full">
-          <thead className="bg-white border-b">
-            <tr>
-              <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                #
-              </th>
-              <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                First
-              </th>
-              <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Last
-              </th>
-              <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Handle
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="bg-gray-100 border-b">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Mark
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Otto
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @mdo
-              </td>
-            </tr>
-            <tr className="bg-white border-b">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Jacob
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Dillan
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @fat
-              </td>
-            </tr>
-            <tr className="bg-gray-100 border-b">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">3</td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Mark
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Twen
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @twitter
-              </td>
-            </tr>    
-            <tr className="bg-white border-b">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">4</td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Bob
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Dillan
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @fat
-              </td>
-            </tr>
-            <tr className="bg-gray-100 border-b">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">5</td>
-              <td colSpan="2" className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
-                Larry the Bird
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @twitter
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-  )
+    const [planets, setPlanets] = useState([])
+
+    useEffect(()=>{
+        const getPlanets = async () => {
+            let results = await api() 
+            setPlanets(results)
+        }
+        getPlanets()
+    }, [])
+
+    return (
+        <div className="flex flex-col w-[400px] absolute top-1/2 left-1/2 transform translate-x-[-50%] translate-y-[-50%]">
+            <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div className="overflow-hidden">
+                        <table className="min-w-full border">
+                            <thead className="bg-white border-b">
+                                <tr>
+                                    <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                        #
+                                    </th>
+                                    <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-right">
+                                        Planet
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    planets.map((item)=> (
+                                    <tr key={item.id} className="bg-gray-100 border-b [&:nth-child(even)]:bg-white">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.id}</td>
+                                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+                                            {item.name}🪐
+                                        </td>
+                                    </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default Table
